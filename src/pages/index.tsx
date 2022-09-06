@@ -1,21 +1,35 @@
 import type { NextPage } from "next";
+
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const helloQuery = trpc.useQuery(["hello", { text: "client" }]);
+  const helloQuery = trpc.useQuery([
+    "hello.hello",
+    {
+      text: "Cocopod",
+    },
+  ]);
 
-  if (!helloQuery.data) {
+  if (helloQuery.isLoading) {
     return (
       <div>
-        <h1 className="text-3xl font-bold underline">Loading</h1>
+        <p>Loading....</p>
+      </div>
+    );
+  }
+
+  if (helloQuery.isError) {
+    return (
+      <div>
+        <p>Something went Wrong, check Project</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello World!</h1>
-      <p>{helloQuery.data.greeting}</p>
+      <h1>This is from TRPC:</h1>
+      <p>{helloQuery.data?.message}</p>
     </div>
   );
 };
