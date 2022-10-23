@@ -3,33 +3,34 @@ import type { NextPage } from "next";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const helloQuery = trpc.useQuery([
-    "hello.hello",
+  const getAllQuery = trpc.useQuery([
+    "post.detail",
     {
-      text: "Cocopod",
+      id: "this is id",
     },
   ]);
 
-  if (helloQuery.isLoading) {
+  if (getAllQuery.isLoading) {
     return (
-      <div>
-        <p>Loading....</p>
+      <div className="h-screen w-screen flex flex-col justify-center">
+        <p className="text-center">Loading....</p>
       </div>
     );
   }
 
-  if (helloQuery.isError) {
+  if (getAllQuery.isError) {
     return (
-      <div>
-        <p>Something went Wrong, check Project</p>
+      <div className="h-screen w-screen flex flex-col justify-center">
+        <p className="text-center">Something went Wrong, check Project</p>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>This is from TRPC:</h1>
-      <p>{helloQuery.data?.message}</p>
+    <div className="h-screen w-screen flex flex-col justify-center">
+      <h1 className="text-center">This is from TRPC:</h1>
+      <p className="text-center">{getAllQuery.data?.message}</p>
+      <p className="text-center">{JSON.stringify(getAllQuery.data?.data)}</p>
     </div>
   );
 };
