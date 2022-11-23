@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { prismaClient } from "../utils/prisma";
 
 export function createContext({
   req,
@@ -7,7 +8,7 @@ export function createContext({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
-  return { req, res };
+  return { req, res, prismaClient };
 }
 
 export type Context = ReturnType<typeof createContext>;
